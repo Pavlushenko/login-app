@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h2>Dashboard</h2>
+    {% if app.user.role.id == 1 %}
+        <table border="1">
+            <tr>
+                <th>E-mail</th>
+                <th>Role</th>
+                <th>Full Name</th>
+                <th>New Messages</th>
+            </tr>
+            {% for user in users %}
+                {% if user.role.id != 1 %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('topics', {'user': user.id }) }}">
+                                {{ user.email }}
+                            </a>
+                        </td>
+                        <td>{{ user.role.name }}</td>
+                        <td>{{ user.firstname }} {{ user.lastname }}</td>
+                        <td>
+                            {% if user.id in lastMessagesCount|keys %}
+                                {{ lastMessagesCount[user.id] }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% elseif app.user.role.id == 2 %}
+        {% set profile = path('profile') %}
+        {% set sendMessage = path('send_message') %}
+        <button onclick="location.href='{{ profile }}'" type="button">Profile</button>
+        <button onclick="location.href='{{ sendMessage }}'" type="button">Send Message</button>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h2>Topics</h2>
+    {% for item in topicsWithMessages %}
+        <div>
+            <table border="1">
+                <tr>
+                    <th colspan="2">{{ item.name }}</th>
+                </tr>
+                {% for messages in item.messages %}
+                    <tr>
+                        <td>{{ messages.firstName }} {{ messages.lastName }}</td>
+                        <td>{{ messages.message }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% set href = path('topics', {'user': user.id, 'topic': item.id }) %}
+            <br /><button onclick="location.href='{{ href }}'" type="button">Send Message</button><br /><br />
+        </div>
+    {% endfor %}
+{% endblock %}
